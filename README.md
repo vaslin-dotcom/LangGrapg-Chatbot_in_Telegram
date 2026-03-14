@@ -165,6 +165,11 @@ search        Send to Telegram
 [chat_node]
 (with tool results)
 ```
+## 🗺️ Graph Visualization
+
+![LangGraph Workflow](graph.png)
+
+```
 
 ### Nodes Explained
 
