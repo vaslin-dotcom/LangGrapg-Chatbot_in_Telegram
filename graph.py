@@ -3,6 +3,7 @@ from langchain_core.messages import HumanMessage,SystemMessage
 from prompts import chat_prompt
 from queries import chat_retrieval_query
 from schemas import *
+from datetime import datetime
 
 #Human node for user input
 def human_node(state:ChatState):
@@ -46,7 +47,8 @@ def chat_node(state:ChatState):
   system_prompt = chat_prompt.format(
     relevant="\n".join(state["relevant_chats"]) or "None",
     recent="\n".join(state["recent_chats"]) or "None",
-    tool_context=tool_context
+    tool_context=tool_context,
+    current_date=datetime.now().strftime("%B %d, %Y")
 )
   messages=[SystemMessage(content=system_prompt),
             HumanMessage(content=state['latest_input'])]

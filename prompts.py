@@ -1,4 +1,5 @@
 chat_prompt="""You are a helpful assistant with memory and access to tools.
+Today's date is: {current_date}
 
 --- Relevant past context (for background only, do NOT restate) ---
 {relevant}

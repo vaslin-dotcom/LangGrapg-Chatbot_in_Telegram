@@ -4,6 +4,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 from graph import app
 from schemas import ChatState
+import asyncio
 
 load_dotenv()
 
@@ -30,9 +31,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     config = {"configurable": {"thread_id": thread_id}}
 
+    
     try:
-        output = app.invoke(initial_state, config=config)
+        loop = asyncio.get_event_loop()
+        output = await loop.run_in_executor(
+            None, 
+            lambda: app.invoke(initial_state, config=config)
+        )
         response_text = output.get("latest_response", "Sorry, I couldn't generate a response.")
+    except asyncio.TimeoutError:
+        response_text = "Sorry, request timed out. Please try again!"
     except Exception as e:
         response_text = f"An error occurred: {str(e)}"
 
